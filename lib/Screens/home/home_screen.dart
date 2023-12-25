@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:common/Common/string_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -85,7 +86,17 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               const SizedBox(
                 height: 20,
               ),
-              commonTextFormField(context: context,textFieldController: TextEditingController()),
+              commonTextFormField(context: context,textFieldController: TextEditingController(),
+                validationRules:[
+                  StringConstant.emailRegexPattern[0],
+                  StringConstant.emailRegexPattern[1],
+                  StringConstant.emailRegexPattern[2],
+                  StringConstant.emailRegexPattern[3],
+                  StringConstant.emailRegexPattern[4],
+                  StringConstant.emailRegexPattern[5],
+                  StringConstant.emailRegexPattern[6],
+                ]
+              ),
               commonElevatedButton(buttonText: "error Dialog", buttonOnTap: (){
                 commonConfirmationDialog(context: context,onYes: ()=> Navigator.of(context).pop());
               })

@@ -11,7 +11,7 @@ extension StringExtension on String {
   }
   String capitalizeFirstLetter() {
     if (this.isEmpty) {
-      return this; // Return the original string if it's empty
+      return this;
     }
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
@@ -20,6 +20,21 @@ extension StringExtension on String {
 extension IntExtension on int {
   bool isEvenNumber() {
     return this % 2 == 0;
+  }
+}
+/// Number Parsing ///
+extension ParsingExtensions on String {
+  int parseInt() {
+    return int.tryParse(this) ?? 0; // Returns 0 if parsing fails
+  }
+
+  double parseDouble() {
+    return double.tryParse(this) ?? 0.0; // Returns 0.0 if parsing fails
+  }
+
+  bool parseBool() {
+    final lowerCase = toLowerCase();
+    return lowerCase == 'true' || lowerCase == '1';
   }
 }
 /// in Decimal after .2 Pads ///
