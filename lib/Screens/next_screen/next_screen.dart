@@ -35,7 +35,8 @@ class _NextScreenState extends State<NextScreen> with CommonWidgets {
                   buttonText: "Common SnackBar",
                   buttonOnTap: () => commonSnackBar(
                       context: context,
-                      message: "${l1.countTotalLengthOfString()}",
+                      // message: "${l1.countTotalLengthOfString()}",
+                      message: "mvimv".capitalizeFirstLetter(),
                       snackBarBehavior: SnackBarBehavior.floating,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30))),
