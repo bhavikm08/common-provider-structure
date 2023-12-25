@@ -26,9 +26,9 @@ class UsersProvider with ChangeNotifier, CommonWidgets {
     notifyListeners();
   }
    doGetUsers(BuildContext context) async {
-     WidgetsBinding.instance?.addPostFrameCallback((_) {
-       showLoader(context);
-     });
+     // WidgetsBinding.instance?.addPostFrameCallback((_) {
+       commonLoader(context);
+     // });
     final result = await authRepository.getUserList(
       endPoint: 'api/?page=$pageValue&results=$resultValue&seed=$seed',
     );

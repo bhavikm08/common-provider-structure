@@ -296,13 +296,16 @@ mixin CommonWidgets {
 
   static OverlayEntry? _overlayEntry;
 
-  showLoader(BuildContext context) {
-    _overlayEntry = OverlayEntry(
-      builder: (context) => _buildLoader(),
-    );
+  commonLoader(BuildContext context) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _overlayEntry = OverlayEntry(
+        builder: (context) => _buildLoader(),
+      );
 
-    Overlay.of(context).insert(_overlayEntry!);
+      Overlay.of(context).insert(_overlayEntry!);
+    });
   }
+
 
   hideLoader() {
     _overlayEntry?.remove();
@@ -310,20 +313,13 @@ mixin CommonWidgets {
   }
 
   _buildLoader() {
-    return const Center(
-      child: AlertDialog(
-        backgroundColor: Colors.transparent,
-        shadowColor: Colors.transparent,
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CircularProgressIndicator(
-              backgroundColor: Colors.black,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-              strokeWidth: 3,
-            ),
-          ],
-        ),
+    return Container(
+      color: Colors.black.withOpacity(0.2),
+      alignment: Alignment.center,
+      child: const CircularProgressIndicator(
+        backgroundColor: Colors.black,
+        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+        strokeWidth: 3,
       ),
     );
   }

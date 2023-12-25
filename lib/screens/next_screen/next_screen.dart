@@ -74,7 +74,7 @@ class _NextScreenState extends State<NextScreen> with CommonWidgets {
                     buttonText: "Loader",
                     buttonOnTap: () async {
                       value.connectionValue == true
-                          ? showLoader(context)
+                          ? commonLoader(context)
                           : null;
                       value.connectionValue == true
                           ? Timer(const Duration(seconds: 3), () {
