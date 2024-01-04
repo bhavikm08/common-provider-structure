@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:common/Common/string_constant.dart';
+import 'package:common/local_notification/local_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
   void didChangeDependencies() {
     final prov = Provider.of<HomeProvider>(context, listen: false);
     prov.get(context);
+    prov.deviceToken();
     super.didChangeDependencies();
   }
 
@@ -43,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
             children: [
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                 child: commonElevatedButton(
                   // context: context,
                   textFontSize: 20,
@@ -57,7 +59,8 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               ),
               commonText(
                   commonText:
-                      'status :- ${value.connectionStatus} - ${value.connectionValue}'),
+                  'status :- ${value.connectionStatus} - ${value
+                      .connectionValue}'),
               const SizedBox(
                 height: 20,
               ),
@@ -72,10 +75,10 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
                   // shape: BoxShape.circle,
                   image: value2.picture.path.isNotEmpty
                       ? DecorationImage(
-                          image: FileImage(File(value2.picture.path)))
+                      image: FileImage(File(value2.picture.path)))
                       : DecorationImage(
-                          image: NetworkImage(value2.url),
-                        ),
+                    image: NetworkImage(value2.url),
+                  ),
                 ),
                 child: InkWell(
                     onTap: () {
@@ -86,19 +89,28 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               const SizedBox(
                 height: 20,
               ),
-              commonTextFormField(context: context,textFieldController: TextEditingController(),
-                validationRules:[
-                  StringConstant.emailRegexPattern[0],
-                  StringConstant.emailRegexPattern[1],
-                  StringConstant.emailRegexPattern[2],
-                  StringConstant.emailRegexPattern[3],
-                  StringConstant.emailRegexPattern[4],
-                  StringConstant.emailRegexPattern[5],
-                  StringConstant.emailRegexPattern[6],
-                ]
+              commonTextFormField(context: context,
+                  textFieldController: TextEditingController(),
+                  validationRules: [
+                    StringConstant.emailRegexPattern[0],
+                    StringConstant.emailRegexPattern[1],
+                    StringConstant.emailRegexPattern[2],
+                    StringConstant.emailRegexPattern[3],
+                    StringConstant.emailRegexPattern[4],
+                    StringConstant.emailRegexPattern[5],
+                    StringConstant.emailRegexPattern[6],
+                  ]
               ),
-              commonElevatedButton(buttonText: "error Dialog", buttonOnTap: (){
-                commonConfirmationDialog(context: context,onYes: ()=> Navigator.of(context).pop());
+              commonElevatedButton(buttonText: "error Dialog", buttonOnTap: () {
+                commonConfirmationDialog(
+                    context: context, onYes: () => Navigator.of(context).pop());
+              }),
+              commonElevatedButton(
+                  buttonText: "Simple Notification", buttonOnTap: () {
+                LocalNotifications.showSimpleNotification(
+                    title: "Simple Notification",
+                    body: "Added In Tray",
+                    payload: "Loadmimvr.");
               })
             ],
           ),
@@ -111,7 +123,10 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
     commonBottomSheet(
         context: context,
         widget: Container(
-          height: MediaQuery.of(context).size.height * 0.2,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height * 0.2,
           padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

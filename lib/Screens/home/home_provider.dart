@@ -1,11 +1,14 @@
 import 'dart:io';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../Common/string_constant.dart';
 import '../../common_mixin_widgets/common_mixin_widget.dart';
 
 class HomeProvider with ChangeNotifier, CommonWidgets {
@@ -21,7 +24,12 @@ class HomeProvider with ChangeNotifier, CommonWidgets {
       },
     );
   }
-
+  Future<void> deviceToken() async {
+    StringConstant.deviceToken1 = (await FirebaseMessaging.instance.getToken())!;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(StringConstant.deviceToken, StringConstant.deviceToken1);
+    print('DEVICE_TOKEN1!!! :-> ${StringConstant.deviceToken1}');
+  }
   Future<void> requestPermissionsAndPickImage(ImageSource source, BuildContext context) async {
     PermissionStatus photoStatus = await Permission.photos.status;
     PermissionStatus cameraStatus = await Permission.camera.status;
