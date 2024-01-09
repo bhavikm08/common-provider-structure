@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
     return Consumer2<NetworkStatusService, HomeProvider>(
       builder: (context, value, value2, child) {
         return Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
             title: commonText(commonText: "Use Of Mixin"),
           ),
@@ -91,6 +92,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               ),
               commonTextFormField(context: context,
                   textFieldController: TextEditingController(),
+
                   validationRules: [
                     StringConstant.emailRegexPattern[0],
                     StringConstant.emailRegexPattern[1],
