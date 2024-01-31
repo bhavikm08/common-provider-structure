@@ -4,6 +4,7 @@ import 'package:common/Common/string_constant.dart';
 import 'package:common/local_notification/local_notification.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -27,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
 
   @override
   void didChangeDependencies() {
+    KeyboardVisibilityController().onChange.listen((event) {
+      print("EVENT $event");
+    });
     final prov = Provider.of<HomeProvider>(context, listen: false);
     prov.get(context);
     prov.deviceToken();
@@ -92,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               ),
               commonTextFormField(context: context,
                   textFieldController: TextEditingController(),
-
                   validationRules: [
                     StringConstant.emailRegexPattern[0],
                     StringConstant.emailRegexPattern[1],

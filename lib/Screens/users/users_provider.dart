@@ -11,7 +11,7 @@ class UsersProvider with ChangeNotifier, CommonWidgets {
   int resultValue = 10;
   String seed = '';
   ScrollController scrollController = ScrollController();
-  AuthRepository authRepository = AuthRepository();
+  // AuthRepository authRepository = AuthRepository();
 
   pagination({BuildContext? context}) async {
     scrollController.addListener(() async {
@@ -29,7 +29,7 @@ class UsersProvider with ChangeNotifier, CommonWidgets {
      // WidgetsBinding.instance?.addPostFrameCallback((_) {
        commonLoader(context);
      // });
-    final result = await authRepository.getUserList(
+    final result = await AuthRepository.instance.getUserList(
       endPoint: 'api/?page=$pageValue&results=$resultValue&seed=$seed',
     );
     try {

@@ -12,6 +12,8 @@ enum Method { POST, GET, DELETE, PUT, PATCH, MULTIPART }
 final NetworkStatusService _networkStatusService = NetworkStatusService();
 
 class ApiService with CommonWidgets {
+  ApiService._privateConstructor();
+  static final ApiService instance = ApiService._privateConstructor();
   Future<http.Response> request({
     required String endPoint,
     required Method method,
