@@ -15,6 +15,18 @@ extension StringExtension on String {
     }
     return "${this[0].toUpperCase()}${this.substring(1)}";
   }
+  String capitalizeFirstLetterAndReturnOne() {
+    if (this.isEmpty) {
+      return this;
+    }
+    return this.substring(0, 1).toUpperCase();
+  }
+  String reverseString() {
+    if (this.isEmpty) {
+      return this;
+    }
+    return this.split("").reversed.join();
+  }
 }
 /// isEven Integer bool ///
 extension IntExtension on int {
@@ -90,6 +102,7 @@ extension DateExtension on DateTime {
 
 void main() {
   String myString = "Hello, world!";
+  String name = "leon jadde";
   print(myString.countWords()); // Output: 2
   DateTime now = DateTime.now();
   int myNumber = 42;
@@ -97,13 +110,12 @@ void main() {
   String dateTimeString = "2023-01-01 12:34:56";
   // DateTime parsedDateTime = dateTimeString.parseToDateTime("yyyy-MM-dd HH:mm");
 
-
-  print(myNumber.isEvenNumber()); // Output: true
   print(myDouble.roundToDecimalPlaces(2)); // Output: 3.14
+  print("Name ${name.reverseString()}");
   // print(now.formatAsCustomStringForDate()); // Output:
   // print(now.getDateOnly()); // only date output
   // print(now.getDateOnly()); // Output: 2023-12-25 without format
-  print(now.getDateOnly(format: "dd-MM-yyyy")); // Output: 25-12-2023
+  print(now.getDateOnly(format: "dd-MM-yyyy ")); // Output: 25-12-2023
   // DateTime parsedDateTime = dateTimeString.parseToDateTime("dd-MM-yyyy");
   // print(parsedDateTime); // Output: 2023-01-01 12:34:56.000
   // String formattedDateTime = dateTimeString.formatDateTime("yyyy-MM-dd HH:mm");

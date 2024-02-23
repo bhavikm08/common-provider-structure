@@ -12,27 +12,71 @@ class VideosView extends StatefulWidget {
 
 class _VideosViewState extends State<VideosView> {
 
-  List<FileSystemEntity> _files = [];
+  Future<List<File>> fetchLocalVideos() async {
+    List<File> videoFiles = [];
 
-  void _getFiles() async {
-    final directory = await getExternalStorageDirectory();
-    List<FileSystemEntity> files = directory!.listSync().where((entity) => entity.path.endsWith('.mp4')).toList();
-    setState(() {
-      _files = files;
-    });
-    print("Files :-> $_files");
+    try {
+      // Get the app's documents directory
+      Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+
+      // Recursively list all files in the documents directory and subdirectories
+      List<FileSystemEntity> files = _listFiles(appDocumentsDirectory);
+
+      // Filter files to include only video files
+      videoFiles = files.whereType<File>().toList();
+    } catch (e) {
+      print('Error fetching local videos: $e');
+    }
+
+    return videoFiles;
   }
+
+  List<FileSystemEntity> _listFiles(Directory directory) {
+    List<FileSystemEntity> files = [];
+
+    try {
+      List<FileSystemEntity> entities = directory.listSync();
+
+      for (FileSystemEntity entity in entities) {
+        if (entity is File) {
+          files.add(entity);
+        } else if (entity is Directory) {
+          files.addAll(_listFiles(entity));
+        }
+      }
+    } catch (e) {
+      print('Error listing files: $e');
+    }
+
+    return files;
+  }
+
+
+  void main1() async {
+    List<File> localVideos = await fetchLocalVideos();
+    for (File videoFile in localVideos) {
+      print('Video file: ${videoFile.path}');
+    }
+  }
+
+
+
   @override
   void initState() {
-    _getFiles();
+    // _getFiles();
+    main1();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
+          ElevatedButton(onPressed: () {
+            main1();
+          }, child: Text("press")),
         ],
       ),
     );

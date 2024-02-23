@@ -2,16 +2,22 @@ import 'dart:io';
 
 import 'package:common/Common/string_constant.dart';
 import 'package:common/local_notification/local_notification.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../../common_mixin_widgets/common_mixin_widget.dart';
 import '../../network_connectivity /network_connectivity.dart';
+import '../Loader/loading_provider.dart';
 import '../next_screen/next_screen.dart';
 import 'home_provider.dart';
+
+// late LoadingProvider loadingProvider;
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -23,6 +29,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
   @override
   void initState() {
+    Provider.of<LoadingProviders>(context, listen: false).stopLoading();
     super.initState();
   }
 
@@ -37,6 +44,9 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
     super.didChangeDependencies();
   }
 
+  bool isTyping = false;
+  TextEditingController tx = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<NetworkStatusService, HomeProvider>(
@@ -44,13 +54,15 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
         return Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
-            title: commonText(commonText: "Use Of Mixin"),
+            title: commonText(
+              commonText: isTyping ? "Typing.." : "Use Of Mixin",
+            ),
           ),
           body: Column(
             children: [
               Padding(
                 padding:
-                const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
                 child: commonElevatedButton(
                   // context: context,
                   textFontSize: 20,
@@ -64,8 +76,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               ),
               commonText(
                   commonText:
-                  'status :- ${value.connectionStatus} - ${value
-                      .connectionValue}'),
+                      'status :- ${value.connectionStatus} - ${value.connectionValue}'),
               const SizedBox(
                 height: 20,
               ),
@@ -80,10 +91,10 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
                   // shape: BoxShape.circle,
                   image: value2.picture.path.isNotEmpty
                       ? DecorationImage(
-                      image: FileImage(File(value2.picture.path)))
+                          image: FileImage(File(value2.picture.path)))
                       : DecorationImage(
-                    image: NetworkImage(value2.url),
-                  ),
+                          image: NetworkImage(value2.url),
+                        ),
                 ),
                 child: InkWell(
                     onTap: () {
@@ -94,29 +105,48 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
               const SizedBox(
                 height: 20,
               ),
-              commonTextFormField(context: context,
-                  textFieldController: TextEditingController(),
-                  validationRules: [
-                    StringConstant.emailRegexPattern[0],
-                    StringConstant.emailRegexPattern[1],
-                    StringConstant.emailRegexPattern[2],
-                    StringConstant.emailRegexPattern[3],
-                    StringConstant.emailRegexPattern[4],
-                    StringConstant.emailRegexPattern[5],
-                    StringConstant.emailRegexPattern[6],
-                  ]
-              ),
-              commonElevatedButton(buttonText: "error Dialog", buttonOnTap: () {
-                commonConfirmationDialog(
-                    context: context, onYes: () => Navigator.of(context).pop());
-              }),
+              commonTextFormField(
+                  context: context,
+                  textFieldController: tx,
+                  // validationRules: [
+                  //   StringConstant.emailRegexPattern[0],
+                  //   StringConstant.emailRegexPattern[1],
+                  //   StringConstant.emailRegexPattern[2],
+                  //   StringConstant.emailRegexPattern[3],
+                  //   StringConstant.emailRegexPattern[4],
+                  //   StringConstant.emailRegexPattern[5],
+                  //   StringConstant.emailRegexPattern[6],
+                  // ],
+                  onChanged: (value) {
+                    if (value.length > 0 && value.isNotEmpty) {
+                      setState(() {
+                        isTyping = true;
+                        print('True If 1:----->');
+                      });
+                    } else {
+                      setState(() {
+                        isTyping = false;
+                        print('False Else 1:---->');
+                      });
+                    }
+                  }),
               commonElevatedButton(
-                  buttonText: "Simple Notification", buttonOnTap: () {
-                LocalNotifications.showSimpleNotification(
-                    title: "Simple Notification",
-                    body: "Added In Tray",
-                    payload: "Loadmimvr.");
-              })
+                  buttonText: "error Dialog",
+                  buttonOnTap: () {
+                    commonConfirmationDialog(
+                        context: context,
+                        onYes: () => Navigator.of(context).pop());
+                  }),
+              commonElevatedButton(
+                  buttonText: "showScheduleNotification",
+                  buttonOnTap: () {
+                    LocalNotifications.showSimpleNotification(
+                      title: "showScheduleNotification",
+                      body: "Reminder",
+                      payload: "csk",
+                    );
+                  }),
+              commonElevatedButton(buttonText: "Download", buttonOnTap: () {})
             ],
           ),
         );
@@ -128,10 +158,7 @@ class _HomeScreenState extends State<HomeScreen> with CommonWidgets {
     commonBottomSheet(
         context: context,
         widget: Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height * 0.2,
+          height: MediaQuery.of(context).size.height * 0.2,
           padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

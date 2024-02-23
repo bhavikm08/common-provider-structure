@@ -313,13 +313,16 @@ mixin CommonWidgets {
   }
 
   _buildLoader() {
-    return Container(
-      color: Colors.black.withOpacity(0.2),
-      alignment: Alignment.center,
-      child: const CircularProgressIndicator(
-        backgroundColor: Colors.black,
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-        strokeWidth: 3,
+    return IgnorePointer(
+      ignoring: false,
+      child: Container(
+        color: Colors.black.withOpacity(0.1),
+        alignment: Alignment.center,
+        child: const CircularProgressIndicator(
+          backgroundColor: Colors.black,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+          strokeWidth: 3,
+        ),
       ),
     );
   }

@@ -21,6 +21,8 @@ class StringConstant {
         'Password must be contain lowercase letters'),
     const Tuple2('(?=.*[@#\$%^&+=!])',
         'Password must be contain least one special character'),
+    const Tuple2('(?=.*?[0-9])',
+        'Password must be contain least one numeric character'),
     const Tuple2(
         '(?=.{8,})', 'Password must be 8 length'),
   ];

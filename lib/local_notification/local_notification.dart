@@ -24,13 +24,11 @@ class LocalNotifications {
     DarwinInitializationSettings(
       onDidReceiveLocalNotification: (id, title, body, payload) => null,
     );
-    final LinuxInitializationSettings initializationSettingsLinux =
-    LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings =
     InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsDarwin,
-        linux: initializationSettingsLinux);
+        );
     _flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: onNotificationTap,
         onDidReceiveBackgroundNotificationResponse: onNotificationTap);
